@@ -1,0 +1,43 @@
+﻿@page "/weather"
+@using BlazorWeatherApp.Data
+
+<h3>Weather</h3>
+
+<div class="d-flex">
+	@foreach (var f in forecasts)
+	{
+		<Forecast Outlook="@f.Summary"
+				  Temperature="@f.TemperatureC.ToString()"
+				  DayOfWeek="@f.Date.DayOfWeek">
+			<CustomMessage>
+				@if(f.Summary == "Rainy")
+				{
+					<div class="alert alert-danger">
+						Tornado Warning!
+					</div>
+				}
+			</CustomMessage>
+		</Forecast>
+	}
+</div>
+
+@code {
+	WeatherForecast[] forecasts;
+
+	protected override void OnInitialized()
+	{
+		forecasts = GenerateDemoData();
+	}
+
+	private WeatherForecast[] GenerateDemoData()
+	{
+		var rng = new Random();
+		return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+		{
+			Date = DateTime.Now.AddDays(index),
+			TemperatureC = rng.Next(10, 25),
+			Summary = Summaries[rng.Next(Summaries.Length)]
+		}).ToArray();
+	}
+	private static string[] Summaries => new[] { "Sunny", "Cloudy", "Rainy" };
+}

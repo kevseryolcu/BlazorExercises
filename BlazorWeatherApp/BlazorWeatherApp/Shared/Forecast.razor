@@ -1,0 +1,17 @@
+﻿<div class="forecast-item">
+	<span class="@Outlook.ToLower()"></span>
+	<div class="temperature">@Temperature&deg;</div>
+	@CustomMessage
+	<p>"@Outlook weather expected @DayOfWeek.</p>
+</div>
+
+@code {
+	[Parameter] public string Outlook { get; set; }
+
+	[Parameter] public string Temperature { get; set; }
+
+	[Parameter] public DayOfWeek DayOfWeek { get; set; }
+
+	[Parameter] public RenderFragment CustomMessage { get; set; }
+
+}
